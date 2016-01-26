@@ -13,7 +13,7 @@
   new = green bold
 [alias]
   # add
-  a = add                           # add
+  a = add .                         # add everything to the staging area
   chunkyadd = add --patch           # stage commits chunk by chunk
 
   # branch
@@ -23,6 +23,8 @@
   c = commit -m                     # commit with message
   ca = commit -am                   # commit all with message
   ci = commit                       # commit
+  cn = commit -n                      # commit with no hooks
+  acn = !git add . && git commit -n   # add everything _and_ commit with no hooks
   amend = commit --amend            # ammend your last commit
   ammend = commit --amend           # ammend your last commit
   amen = commit --amend --no-edit     # ammend your last commit without prompting for the commit message
@@ -55,6 +57,7 @@
 
   # pull
   pl = pull                         # pull
+  prud = pull --rebase upstream develop
 
   # push
   ps = push                         # push
@@ -67,6 +70,7 @@
   rc = rebase --continue            # continue rebase
   rs = rebase --skip                # skip rebase
   ri = !sh -c 'git rebase -i HEAD~$1' -
+  riud = rebase -i upstream/develop
 
 # remote
   r = remote -v                     # show remotes (verbose)
