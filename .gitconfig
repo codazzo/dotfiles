@@ -26,8 +26,9 @@
   cn = commit -n                      # commit with no hooks
   acn = !git add . && git commit -n   # add everything _and_ commit with no hooks
   amend = commit --amend            # ammend your last commit
-  ammend = commit --amend           # ammend your last commit
+  namend = commit --amend -n
   amen = commit --amend --no-edit     # ammend your last commit without prompting for the commit message
+  namen = commit --amend --no-edit -n   # like amen, but skip commit hooks
 
   # checkout
   co = checkout                     # checkout
@@ -40,10 +41,11 @@
   # diff
   d = diff                          # diff unstaged changes
   dc = diff --cached                # diff staged changes
+  dsf = "!git diff --color $@ | diff-so-fancy"
   last = diff HEAD^                 # diff last committed change
 
-  #fixup
-  fuc = !git add . && git commit -n -m "FixUp"    #create a quick fixup commit
+  # fetch
+  fu = fetch upstream
 
   # log
   l = log --graph --date=short
@@ -66,9 +68,9 @@
   fpc = !sh -c 'git push --force codazzo `git rev-parse --abbrev-ref HEAD`' -
 
   # rebase
-  ra = rebase --abort               # abort rebase
-  rc = rebase --continue            # continue rebase
-  rs = rebase --skip                # skip rebase
+  ra = rebase --abort
+  rc = rebase --continue
+  rs = rebase --skip
   ri = !sh -c 'git rebase -i HEAD~$1' -
   riud = rebase -i upstream/develop
 
@@ -77,7 +79,9 @@
 
   # reset
   unstage = reset HEAD              # remove files from index (tracking)
-  uncommit = reset --soft HEAD^     # go back before last commit, with files in uncommitted state
+  us      = reset HEAD
+  uncommit = reset HEAD^            # go back before last commit, with files in uncommitted state
+  uc       = reset HEAD^
   filelog = log -u                  # show changes to a file
   mt = mergetool                    # fire up the merge tool
   rh = reset --hard
