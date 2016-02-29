@@ -107,14 +107,19 @@
   svnr = svn rebase
   svnd = svn dcommit
   svnl = svn log --oneline --show-commit
-	recentbranch = for-each-ref --count=30 --sort=-committerdate refs/heads/ --format='%(refname:short)'
-	pr = !git fetch -fu ${2:-upstream} refs/pull/$1/head:pr/$1 && git checkout pr/$1 && :
-	pr-clean = "!git for-each-ref refs/heads/pr/* --format='%(refname)' | while read ref ; do branch=${ref#refs/heads/} ; git branch -D $branch ; done"
+
+  #recent branches
+  recentbranch = for-each-ref --count=30 --sort=-committerdate refs/heads/ --format='%(refname:short)'
+
+  #pr's
+  pr = !git fetch -fu ${2:-upstream} refs/pull/$1/head:pr/$1 && git checkout pr/$1 && :
+  pr-clean = "!git for-each-ref refs/heads/pr/* --format='%(refname)' | while read ref ; do branch=${ref#refs/heads/} ; git branch -D $branch ; done"
+
 [format]
   pretty = format:%C(blue)%ad%Creset %C(yellow)%h%C(green)%d%Creset %C(blue)%s %C(magenta) [%an]%Creset
 [mergetool]
   prompt = false
-	keepBackup = true
+  keepBackup = true
 [mergetool "mvimdiff"]
   cmd="mvim -c 'Gdiff' $MERGED"     # use fugitive.vim for 3-way merge
   keepbackup=false
@@ -129,11 +134,11 @@
 [push]
   # 'git push' will push the current branch to its tracking branch
   # the usual default is to push all branches
-	default = current
+  default = current
 [core]
   autocrlf = false
-	editor = subl -n -w
-	excludesfile = /Users/codazzo/.gitignore_global
+  editor = subl -n -w
+  excludesfile = /Users/codazzo/.gitignore_global
 [advice]
   statusHints = false
 [diff]
@@ -147,11 +152,11 @@
 [include]
   path = .gitconfig.user
 [user]
-	name = Antonio D'Ettole
-	email = antonio@example.com
+  name = Antonio D'Ettole
+  email = antonio@example.com
 [difftool "sourcetree"]
-	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-	path =
+  cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+  path =
 [mergetool "sourcetree"]
-	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
-	trustExitCode = true
+  cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+  trustExitCode = true
