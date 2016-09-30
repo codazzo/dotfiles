@@ -20,15 +20,17 @@
   b = branch -v                     # branch (verbose)
 
   # commit
-  c = commit -m                     # commit with message
-  ca = commit -am                   # commit all with message
-  ci = commit                       # commit
-  cn = commit -n                      # commit with no hooks
-  acn = !git add . && git commit -n   # add everything _and_ commit with no hooks
-  amend = commit --amend            # ammend your last commit
-  namend = commit --amend -n
-  amen = commit --amend --no-edit     # ammend your last commit without prompting for the commit message
-  namen = commit --amend --no-edit -n   # like amen, but skip commit hooks
+  c = commit -m                           # commit with message
+  ca = commit -am                         # commit all with message
+  ci = commit                             # commit
+  cn = commit -n                          # commit with no hooks
+  aci = !git add . && git commit          # add everything commit
+  acn = !git add . && git commit -n       # add everything _and_ commit with no hooks
+  amend = commit --amend                  # amend your last commit
+  namend = commit --amend -n              # amend your last commit with no hooks 
+  amen = commit --amend --no-edit         # amend your last commit without prompting for the commit message
+  namen = commit --amend --no-edit -n     # like amen, but skip commit hooks
+  anamen = commit -a --amend --no-edit -n # like namen, but stage all changes before commmit
 
   # checkout
   co = checkout                     # checkout
@@ -60,19 +62,27 @@
   # pull
   pl = pull                         # pull
   prud = pull --rebase upstream develop
+  prum = pull --rebase upstream master
 
   # push
   ps = push                         # push
   fp = !sh -c 'git push --force origin `git rev-parse --abbrev-ref HEAD`' -
   fpu = !sh -c 'git push --force upstream `git rev-parse --abbrev-ref HEAD`' -
   fpc = !sh -c 'git push --force codazzo `git rev-parse --abbrev-ref HEAD`' -
+  fpa = !sh -c 'git push --force adettole `git rev-parse --abbrev-ref HEAD`' -
 
   # rebase
   ra = rebase --abort
   rc = rebase --continue
+  arc = !git add . && git rebase --continue
   rs = rebase --skip
   ri = !sh -c 'git rebase -i HEAD~$1' -
   riud = rebase -i upstream/develop
+  rius = rebase -i upstream/staging
+  rium = rebase -i upstream/master
+  rumid = rebase upstream/master --ignore-date
+  rusid = rebase upstream/staging --ignore-date
+  rudid = rebase upstream/develop --ignore-date
 
 # remote
   r = remote -v                     # show remotes (verbose)
@@ -109,12 +119,11 @@
   svnl = svn log --oneline --show-commit
 
   #recent branches
-  recentbranch = for-each-ref --count=30 --sort=-committerdate refs/heads/ --format='%(refname:short)'
+  rb = for-each-ref --count=30 --sort=-committerdate refs/heads/ --format='%(refname:short)'
 
   #pr's
   pr = !git fetch -fu ${2:-upstream} refs/pull/$1/head:pr/$1 && git checkout pr/$1 && :
   pr-clean = "!git for-each-ref refs/heads/pr/* --format='%(refname)' | while read ref ; do branch=${ref#refs/heads/} ; git branch -D $branch ; done"
-
 [format]
   pretty = format:%C(blue)%ad%Creset %C(yellow)%h%C(green)%d%Creset %C(blue)%s %C(magenta) [%an]%Creset
 [mergetool]
