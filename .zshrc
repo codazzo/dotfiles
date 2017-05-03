@@ -124,10 +124,6 @@ bindkey '^[[1;9D' backward-word
 # local bin
 export PATH="$PATH:/Users/codazzo/bin"
 
-# increase ulimit so that karma can watch a big number of files
-ulimit -n 65536
-ulimit -u 2048
-
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
