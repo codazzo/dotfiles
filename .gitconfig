@@ -48,6 +48,7 @@
 
   # fetch
   fu = fetch upstream
+  fo = fetch origin
 
   # log
   l = log --graph --date=short
@@ -61,6 +62,8 @@
 
   # pull
   pl = pull                         # pull
+  prod = pull --rebase origin develop
+  prom = pull --rebase origin master
   prud = pull --rebase upstream develop
   prum = pull --rebase upstream master
 
@@ -78,12 +81,12 @@
   arc = !git add . && git rebase --continue
   rs = rebase --skip
   ri = !sh -c 'git rebase -i HEAD~$1' -
-  riud = rebase -i upstream/develop
-  rius = rebase -i upstream/staging
-  rium = rebase -i upstream/master
-  rumid = rebase upstream/master --ignore-date
-  rusid = rebase upstream/staging --ignore-date
-  rudid = rebase upstream/develop --ignore-date
+  riod = rebase -i origin/develop
+  rios = rebase -i origin/staging
+  riom = rebase -i origin/master
+  romid = rebase origin/master --ignore-date
+  rosid = rebase origin/staging --ignore-date
+  rodid = rebase origin/develop --ignore-date
 
 # remote
   r = remote -v                     # show remotes (verbose)
