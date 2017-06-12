@@ -28,6 +28,7 @@
   acn = !git add . && git commit -n       # add everything _and_ commit with no hooks
   amend = commit --amend                  # amend your last commit
   namend = commit --amend -n              # amend your last commit with no hooks 
+  anamend = commit -a --amend -n          # like namend, but stage all changes before commmit
   amen = commit --amend --no-edit         # amend your last commit without prompting for the commit message
   namen = commit --amend --no-edit -n     # like amen, but skip commit hooks
   anamen = commit -a --amend --no-edit -n # like namen, but stage all changes before commmit
