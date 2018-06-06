@@ -100,6 +100,7 @@
   filelog = log -u                  # show changes to a file
   mt = mergetool                    # fire up the merge tool
   rh = reset --hard
+  rhom = reset --hard origin/master
 
   # stash
   ss = stash                        # stash changes
