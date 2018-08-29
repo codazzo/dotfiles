@@ -50,6 +50,7 @@
   # fetch
   fu = fetch upstream
   fo = fetch origin
+  form = !git fetch origin && git reset --hard origin/master
 
   # log
   l = log --graph --date=short
@@ -60,6 +61,9 @@
 
   #ls
   ls = diff-tree --no-commit-id --name-only -r
+
+  # merge
+  mom = merge origin/master
 
   # pull
   pl = pull                         # pull
