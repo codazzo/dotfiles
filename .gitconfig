@@ -12,6 +12,11 @@
   old = red bold
   new = green bold
 [alias]
+  #pr's
+  # git config --global alias in e.g. .zshrc will override these!
+  pr = !git fetch -fu ${2:-origin} refs/pull/$1/head:pr/$1 && git checkout pr/$1 && :
+  pr-clean = "!git for-each-ref refs/heads/pr/* --format='%(refname)' | while read ref ; do branch=${ref#refs/heads/} ; git branch -D $branch ; done"
+
   # add
   a = add .                         # add everything to the staging area
   chunkyadd = add --patch           # stage commits chunk by chunk
@@ -35,7 +40,8 @@
 
   # checkout
   co = checkout                     # checkout
-  cm = checkout master              # checkout master
+  com = checkout master              # checkout master
+  cos = checkout staging              # checkout staging
   nb = checkout -b                  # create and switch to a new branch (mnemonic: "git new branch branchname...")
 
   # cherry-pick
@@ -69,8 +75,10 @@
   pl = pull                         # pull
   prod = pull --rebase origin develop
   prom = pull --rebase origin master
+  pros = pull --rebase origin staging
   prud = pull --rebase upstream develop
   prum = pull --rebase upstream master
+  prus = pull --rebase upstream staging
 
   # push
   ps = push                         # push
@@ -78,6 +86,7 @@
   fpn = !sh -c 'git push --force --no-verify origin `git rev-parse --abbrev-ref HEAD`' -
   fpu = !sh -c 'git push --force upstream `git rev-parse --abbrev-ref HEAD`' -
   fpc = !sh -c 'git push --force codazzo `git rev-parse --abbrev-ref HEAD`' -
+  fpcn = !sh -c 'git push --force --no-verify codazzo `git rev-parse --abbrev-ref HEAD`' -
   fpa = !sh -c 'git push --force adettole `git rev-parse --abbrev-ref HEAD`' -
 
   # rebase
@@ -105,6 +114,7 @@
   mt = mergetool                    # fire up the merge tool
   rh = reset --hard
   rhom = reset --hard origin/master
+  rhos = reset --hard origin/staging
 
   # stash
   ss = stash                        # stash changes
@@ -130,10 +140,6 @@
 
   #recent branches
   rb = for-each-ref --count=30 --sort=-committerdate refs/heads/ --format='%(refname:short)'
-
-  #pr's
-  pr = !git fetch -fu ${2:-origin} refs/pull/$1/head:pr/$1 && git checkout pr/$1 && :
-  pr-clean = "!git for-each-ref refs/heads/pr/* --format='%(refname)' | while read ref ; do branch=${ref#refs/heads/} ; git branch -D $branch ; done"
 [format]
   pretty = format:%C(blue)%ad%Creset %C(yellow)%h%C(green)%d%Creset %C(blue)%s %C(magenta) [%an]%Creset
 [mergetool]
