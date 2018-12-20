@@ -56,6 +56,8 @@
   # fetch
   fu = fetch upstream
   fo = fetch origin
+  fomom = !git fetch origin && git merge origin/master
+  fomos = !git fetch origin && git merge origin/staging
   form = !git fetch origin && git reset --hard origin/master
 
   # log
@@ -70,6 +72,8 @@
 
   # merge
   mom = merge origin/master
+  mos = merge origin/staging
+
 
   # pull
   pl = pull                         # pull
