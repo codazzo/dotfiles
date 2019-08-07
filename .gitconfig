@@ -25,24 +25,29 @@
   b = branch -v                     # branch (verbose)
 
   # commit
-  c = commit -m                           # commit with message
-  ca = commit -am                         # commit all with message
-  ci = commit                             # commit
-  cn = commit -n                          # commit with no hooks
-  aci = !git add . && git commit          # add everything commit
-  acn = !git add . && git commit -n       # add everything _and_ commit with no hooks
-  amend = commit --amend                  # amend your last commit
-  namend = commit --amend -n              # amend your last commit with no hooks 
-  anamend = commit -a --amend -n          # like namend, but stage all changes before commmit
-  amen = commit --amend --no-edit         # amend your last commit without prompting for the commit message
-  namen = commit --amend --no-edit -n     # like amen, but skip commit hooks
-  anamen = commit -a --amend --no-edit -n # like namen, but stage all changes before commmit
+  c = commit -m                               # commit with message
+  ca = commit -am                             # commit all with message
+  cf = commit --fixup                         # create fixup commit
+  ci = commit                                 # commit
+  cn = commit -n                              # commit with no hooks
+  cnf = commit -n --fixup                     # create fixup commit with no hooks
+  aci = !git add . && git commit              # add everything commit
+  acn = !git add . && git commit -n           # add everything _and_ commit with no hooks
+  acf = !git add . && git commit --fixup      # add everything and create fixup commit
+  acnf = !git add . && git commit -n --fixup  # add everything and create fixup commit (don't run hooks)
+  amend = commit --amend                      # amend your last commit
+  namend = commit --amend -n                  # amend your last commit with no hooks 
+  anamend = commit -a --amend -n              # like namend, but stage all changes before commmit
+  amen = commit --amend --no-edit             # amend your last commit without prompting for the commit message
+  namen = commit --amend --no-edit -n         # like amen, but skip commit hooks
+  anamen = commit -a --amend --no-edit -n     # like namen, but stage all changes before commmit
 
   # checkout
-  co = checkout                     # checkout
-  com = checkout master              # checkout master
-  cos = checkout staging              # checkout staging
-  nb = checkout -b                  # create and switch to a new branch (mnemonic: "git new branch branchname...")
+  co = checkout                           # checkout
+  cof = !sh -c 'git-fuzzy-checkout $1' -  # fuzzy vheckout e.g. `git cof refact` instead of `git co refactoring`
+  com = checkout master                   # checkout master
+  cos = checkout staging                  # checkout staging
+  nb = checkout -b                        # create and switch to a new branch (mnemonic: "git new branch branchname...")
 
   # cherry-pick
   cp = cherry-pick -x               # grab a change from a branch
@@ -50,7 +55,6 @@
   # diff
   d = diff                          # diff unstaged changes
   dc = diff --cached                # diff staged changes
-  dsf = "!git diff --color $@ | diff-so-fancy"
   last = diff HEAD^                 # diff last committed change
 
   # fetch
@@ -58,7 +62,8 @@
   fo = fetch origin
   fomom = !git fetch origin && git merge origin/master
   fomos = !git fetch origin && git merge origin/staging
-  form = !git fetch origin && git reset --hard origin/master
+  forhom = !git fetch origin && git reset --hard origin/master
+  forhos = !git fetch origin && git reset --hard origin/staging
 
   # log
   l = log --graph --date=short
@@ -74,18 +79,20 @@
   mom = merge origin/master
   mos = merge origin/staging
 
-
   # pull
-  pl = pull                         # pull
+  pl = pull
   prod = pull --rebase origin develop
   prom = pull --rebase origin master
   pros = pull --rebase origin staging
+  prios = !sh -c 'git pull --rebase origin staging && git rebase -i origin/staging'
+  priom = !sh -c 'git pull --rebase origin master && git rebase -i origin/master'
   prud = pull --rebase upstream develop
   prum = pull --rebase upstream master
   prus = pull --rebase upstream staging
+  
 
   # push
-  ps = push                         # push
+  ps = push
   fp = !sh -c 'git push --force origin `git rev-parse --abbrev-ref HEAD`' -
   fpn = !sh -c 'git push --force --no-verify origin `git rev-parse --abbrev-ref HEAD`' -
   fpu = !sh -c 'git push --force upstream `git rev-parse --abbrev-ref HEAD`' -
@@ -95,6 +102,8 @@
 
   # rebase
   ra = rebase --abort
+  ras = rebase --autosquash --interactive
+  rasom = rebase --autosquash --interactive origin/master
   rc = rebase --continue
   arc = !git add . && git rebase --continue
   rs = rebase --skip
@@ -185,7 +194,7 @@
   email = antonio@example.com
 [difftool "sourcetree"]
   cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-  path =
+  path = 
 [mergetool "sourcetree"]
   cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
   trustExitCode = true
