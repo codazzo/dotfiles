@@ -46,6 +46,7 @@
   co = checkout                           # checkout
   cof = !sh -c 'git-fuzzy-checkout $1' -  # fuzzy vheckout e.g. `git cof refact` instead of `git co refactoring`
   com = checkout master                   # checkout master
+  cod = checkout develop                  # checkout develop
   cos = checkout staging                  # checkout staging
   nb = checkout -b                        # create and switch to a new branch (mnemonic: "git new branch branchname...")
 
@@ -62,8 +63,11 @@
   fo = fetch origin
   fomom = !git fetch origin && git merge origin/master
   fomos = !git fetch origin && git merge origin/staging
+  fomod = !git fetch origin && git merge origin/develop
+  forhob = !git fetch origin && git reset --hard origin/`git rev-parse --abbrev-ref HEAD`
   forhom = !git fetch origin && git reset --hard origin/master
   forhos = !git fetch origin && git reset --hard origin/staging
+  forhod = !git fetch origin && git reset --hard origin/develop
 
   # log
   l = log --graph --date=short
@@ -84,6 +88,7 @@
   prod = pull --rebase origin develop
   prom = pull --rebase origin master
   pros = pull --rebase origin staging
+  prob = !sh -c 'git pull --rebase origin `git rev-parse --abbrev-ref HEAD`'
   prios = !sh -c 'git pull --rebase origin staging && git rebase -i origin/staging'
   priom = !sh -c 'git pull --rebase origin master && git rebase -i origin/master'
   prud = pull --rebase upstream develop
@@ -104,12 +109,16 @@
   ra = rebase --abort
   ras = rebase --autosquash --interactive
   rasom = rebase --autosquash --interactive origin/master
+  rasos = rebase --autosquash --interactive origin/staging
+  rasod = rebase --autosquash --interactive origin/develop
+  rasob = !sh -c 'git rebase --autosquash --interactive origin/`git rev-parse --abbrev-ref HEAD`'
   rc = rebase --continue
   arc = !git add . && git rebase --continue
   rs = rebase --skip
   ri = !sh -c 'git rebase -i HEAD~$1' -
   riod = rebase -i origin/develop
   rios = rebase -i origin/staging
+  riob = !sh -c 'git rebase -i origin/`git rev-parse --abbrev-ref HEAD`'
   riom = rebase -i origin/master
   romid = rebase origin/master --ignore-date
   rosid = rebase origin/staging --ignore-date
@@ -126,6 +135,7 @@
   filelog = log -u                  # show changes to a file
   mt = mergetool                    # fire up the merge tool
   rh = reset --hard
+  rom = reset origin/master
   rhom = reset --hard origin/master
   rhos = reset --hard origin/staging
 
@@ -139,6 +149,7 @@
   s = status                        # status
   st = status                       # status
   stat = status                     # status
+  changed = !git status --porcelain | sed s/^...//
 
   # tag
   t = tag -n                        # show tags with <n> lines of each tag message
