@@ -164,6 +164,7 @@
 
   #recent branches
   rb = for-each-ref --count=30 --sort=-committerdate refs/heads/ --format='%(refname:short)'
+  cb = !dialog --clear --backtitle "Backtitle here" --title "Title here" --menu "Choose one of the following options:" 15 40 4 $(git rb)
 [format]
   pretty = format:%C(blue)%ad%Creset %C(yellow)%h%C(green)%d%Creset %C(blue)%s %C(magenta) [%an]%Creset
 [mergetool]
@@ -176,6 +177,7 @@
   summary = true
   verbosity = 1
   tool = mvimdiff
+  conflictstyle = diff3
 [apply]
   whitespace = nowarn
 [branch]
