@@ -135,6 +135,8 @@
   filelog = log -u                  # show changes to a file
   mt = mergetool                    # fire up the merge tool
   rh = reset --hard
+  rod = reset origin/develop
+  ros = reset origin/staging
   rom = reset origin/master
   rhom = reset --hard origin/master
   rhos = reset --hard origin/staging

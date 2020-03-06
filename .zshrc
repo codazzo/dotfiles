@@ -94,11 +94,6 @@ alias grpo="npm ls | grep repo"
 alias psgrep="ps aux | grep"
 alias gp="git pull"
 
-# MOVED TO .zprofile
-# nvm
-# export NVM_DIR=~/.nvm
-# source $(brew --prefix nvm)/nvm.sh
-
 # git
 
 # Checks out a PR to a pr/<number> local branch
@@ -127,3 +122,8 @@ export PATH="$PATH:/Users/codazzo/bin"
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# nvm 
+export NVM_DIR="$HOME/.nvm"
+[ -s "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh"  # This loads nvm
+[ -s "/usr/local/opt/nvm/etc/bash_completion.d/nvm" ] && . "/usr/local/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
