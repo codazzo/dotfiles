@@ -102,6 +102,7 @@
   fpn = !sh -c 'git push --force --no-verify origin `git rev-parse --abbrev-ref HEAD`' -
   fpu = !sh -c 'git push --force upstream `git rev-parse --abbrev-ref HEAD`' -
   fpc = !sh -c 'git push --force codazzo `git rev-parse --abbrev-ref HEAD`' -
+  fpp = !sh -c 'git push --force play `git rev-parse --abbrev-ref HEAD`' -
   fpcn = !sh -c 'git push --force --no-verify codazzo `git rev-parse --abbrev-ref HEAD`' -
   fpa = !sh -c 'git push --force adettole `git rev-parse --abbrev-ref HEAD`' -
 
