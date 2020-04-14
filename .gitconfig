@@ -108,19 +108,19 @@
 
   # rebase
   ra = rebase --abort
-  ras = rebase --autosquash --interactive
-  rasom = rebase --autosquash --interactive origin/master
-  rasos = rebase --autosquash --interactive origin/staging
-  rasod = rebase --autosquash --interactive origin/develop
+  ras   = !sh -c 'HUSKY_SKIP_HOOKS=1 git rebase --autosquash --interactive'
+  rasom = !sh -c 'HUSKY_SKIP_HOOKS=1 git rebase --autosquash --interactive origin/master'
+  rasos = !sh -c 'HUSKY_SKIP_HOOKS=1 git rebase --autosquash --interactive origin/staging'
+  rasod = !sh -c 'HUSKY_SKIP_HOOKS=1 git rebase --autosquash --interactive origin/develop'
   rasob = !sh -c 'git rebase --autosquash --interactive origin/`git rev-parse --abbrev-ref HEAD`'
   rc = rebase --continue
   arc = !git add . && git rebase --continue
   rs = rebase --skip
-  ri = !sh -c 'git rebase -i HEAD~$1' -
-  riod = rebase -i origin/develop
-  rios = rebase -i origin/staging
-  riob = !sh -c 'git rebase -i origin/`git rev-parse --abbrev-ref HEAD`'
-  riom = rebase -i origin/master
+  ri   = !sh -c 'HUSKY_SKIP_HOOKS=1 git rebase -i HEAD~$1' -
+  riod = !sh -c 'HUSKY_SKIP_HOOKS=1 git rebase -i origin/develop'
+  rios = !sh -c 'HUSKY_SKIP_HOOKS=1 git rebase -i origin/staging'
+  riob = !sh -c 'HUSKY_SKIP_HOOKS=1 git rebase -i origin/`git rev-parse --abbrev-ref HEAD`'
+  riom = !sh -c 'HUSKY_SKIP_HOOKS=1 git rebase -i origin/master'
   romid = rebase origin/master --ignore-date
   rosid = rebase origin/staging --ignore-date
   rodid = rebase origin/develop --ignore-date
