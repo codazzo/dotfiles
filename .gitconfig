@@ -108,7 +108,7 @@
 
   # rebase
   ra = rebase --abort
-  ras   = !sh -c 'HUSKY_SKIP_HOOKS=1 git rebase --autosquash --interactive'
+  ras   = !sh -c 'HUSKY_SKIP_HOOKS=1 git rebase --autosquash --interactive $0'
   rasom = !sh -c 'HUSKY_SKIP_HOOKS=1 git rebase --autosquash --interactive origin/master'
   rasos = !sh -c 'HUSKY_SKIP_HOOKS=1 git rebase --autosquash --interactive origin/staging'
   rasod = !sh -c 'HUSKY_SKIP_HOOKS=1 git rebase --autosquash --interactive origin/develop'
