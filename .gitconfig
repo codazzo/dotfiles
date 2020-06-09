@@ -142,6 +142,8 @@
   rhom = reset --hard origin/master
   rhos = reset --hard origin/staging
 
+  su = !sh -c 'git branch --set-upstream-to=origin/`git rev-parse --abbrev-ref HEAD`'
+
   # stash
   ss = stash                        # stash changes
   sl = stash list                   # list stashes
