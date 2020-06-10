@@ -147,6 +147,7 @@
   # stash
   ss = stash                        # stash changes
   sl = stash list                   # list stashes
+  sp = stash pop                    # pop stash
   sa = stash apply                  # apply stash (restore changes)
   sd = stash drop                   # drop stashes (destory changes)
 
