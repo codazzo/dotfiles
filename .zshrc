@@ -94,16 +94,6 @@ alias grpo="npm ls | grep repo"
 alias psgrep="ps aux | grep"
 alias gp="git pull"
 
-# git
-
-# Checks out a PR to a pr/<number> local branch
-# Usage: git pr <number> [<upstream>]
-git config --global alias.pr '!git fetch -fu ${2:-upstream} refs/pull/$1/head:pr/$1 && git checkout pr/$1 && :'
-
-# Deletes pr/<number> branches
-# Usage: git pr-clean
-git config --global alias.pr-clean '!git for-each-ref refs/heads/pr/* --format='"'"'%(refname)'"'"' | while read ref ; do branch=${ref#refs/heads/} ; git branch -D $branch ; done'
-
 export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/opt/X11/lib/pkgconfig
 
 # autojump (j)
