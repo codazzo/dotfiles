@@ -195,7 +195,7 @@
 [core]
   autocrlf = false
   editor = subl -n -w
-  excludesfile = /Users/codazzo/.gitignore_global
+  excludesfile = ~/.gitignore_global
 [advice]
   statusHints = false
 [diff]
@@ -209,18 +209,20 @@
 [include]
   path = .gitconfig.user
 [user]
-	name = Antonio D'Ettole
+  name = Antonio D'Ettole
   email = antonio@example.com
 [difftool "sourcetree"]
-	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-	path = 
+  cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+  path = 
 [mergetool "sourcetree"]
   cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
-	trustExitCode = true
+  trustExitCode = true
 [filter "lfs"]
   required = true
   clean = git-lfs clean -- %f
   smudge = git-lfs smudge -- %f
   process = git-lfs filter-process
 [commit]
-	template = /Users/codazzo/.stCommitMsg
+  template = ~/.stCommitMsg
+[include]
+    path = ~/.gitconfig.include
