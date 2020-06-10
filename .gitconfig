@@ -46,7 +46,7 @@
   co = checkout                           # checkout
   cof = !sh -c 'git-fuzzy-checkout $1' -  # fuzzy vheckout e.g. `git cof refact` instead of `git co refactoring`
   com = checkout master                   # checkout master
-  cod = checkout develop                  # checkout develop
+  cod = checkout development                  # checkout development
   cos = checkout staging                  # checkout staging
   nb = checkout -b                        # create and switch to a new branch (mnemonic: "git new branch branchname...")
 
@@ -63,11 +63,11 @@
   fo = fetch origin
   fomom = !git fetch origin && git merge origin/master
   fomos = !git fetch origin && git merge origin/staging
-  fomod = !git fetch origin && git merge origin/develop
+  fomod = !git fetch origin && git merge origin/development
   forhob = !git fetch origin && git reset --hard origin/`git rev-parse --abbrev-ref HEAD`
   forhom = !git fetch origin && git reset --hard origin/master
   forhos = !git fetch origin && git reset --hard origin/staging
-  forhod = !git fetch origin && git reset --hard origin/develop
+  forhod = !git fetch origin && git reset --hard origin/development
 
   # log
   l = log --graph --date=short
@@ -85,13 +85,13 @@
 
   # pull
   pl = pull
-  prod = pull --rebase origin develop
+  prod = pull --rebase origin development
   prom = pull --rebase origin master
   pros = pull --rebase origin staging
   prob = !sh -c 'git pull --rebase origin `git rev-parse --abbrev-ref HEAD`'
   prios = !sh -c 'git pull --rebase origin staging && git rebase -i origin/staging'
   priom = !sh -c 'git pull --rebase origin master && git rebase -i origin/master'
-  prud = pull --rebase upstream develop
+  prud = pull --rebase upstream development
   prum = pull --rebase upstream master
   prus = pull --rebase upstream staging
   
@@ -111,19 +111,19 @@
   ras   = !sh -c 'HUSKY_SKIP_HOOKS=1 git rebase --autosquash --interactive $0'
   rasom = !sh -c 'HUSKY_SKIP_HOOKS=1 git rebase --autosquash --interactive origin/master'
   rasos = !sh -c 'HUSKY_SKIP_HOOKS=1 git rebase --autosquash --interactive origin/staging'
-  rasod = !sh -c 'HUSKY_SKIP_HOOKS=1 git rebase --autosquash --interactive origin/develop'
+  rasod = !sh -c 'HUSKY_SKIP_HOOKS=1 git rebase --autosquash --interactive origin/development'
   rasob = !sh -c 'git rebase --autosquash --interactive origin/`git rev-parse --abbrev-ref HEAD`'
   rc = rebase --continue
   arc = !git add . && git rebase --continue
   rs = rebase --skip
   ri   = !sh -c 'HUSKY_SKIP_HOOKS=1 git rebase -i HEAD~$1' -
-  riod = !sh -c 'HUSKY_SKIP_HOOKS=1 git rebase -i origin/develop'
+  riod = !sh -c 'HUSKY_SKIP_HOOKS=1 git rebase -i origin/development'
   rios = !sh -c 'HUSKY_SKIP_HOOKS=1 git rebase -i origin/staging'
   riob = !sh -c 'HUSKY_SKIP_HOOKS=1 git rebase -i origin/`git rev-parse --abbrev-ref HEAD`'
   riom = !sh -c 'HUSKY_SKIP_HOOKS=1 git rebase -i origin/master'
   romid = rebase origin/master --ignore-date
   rosid = rebase origin/staging --ignore-date
-  rodid = rebase origin/develop --ignore-date
+  rodid = rebase origin/development --ignore-date
 
 # remote
   r = remote -v                     # show remotes (verbose)
@@ -136,7 +136,7 @@
   filelog = log -u                  # show changes to a file
   mt = mergetool                    # fire up the merge tool
   rh = reset --hard
-  rod = reset origin/develop
+  rod = reset origin/development
   ros = reset origin/staging
   rom = reset origin/master
   rhom = reset --hard origin/master
@@ -208,18 +208,18 @@
 [include]
   path = .gitconfig.user
 [user]
-  name = Antonio D'Ettole
+	name = Antonio D'Ettole
   email = antonio@example.com
 [difftool "sourcetree"]
-  cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-  path = 
+	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+	path = 
 [mergetool "sourcetree"]
   cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
-  trustExitCode = true
+	trustExitCode = true
 [filter "lfs"]
   required = true
   clean = git-lfs clean -- %f
   smudge = git-lfs smudge -- %f
   process = git-lfs filter-process
 [commit]
-  template = /Users/codazzo/.stCommitMsg
+	template = /Users/codazzo/.stCommitMsg
