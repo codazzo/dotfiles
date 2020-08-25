@@ -45,6 +45,7 @@
   # checkout
   co = checkout                           # checkout
   cof = !sh -c 'git-fuzzy-checkout $1' -  # fuzzy vheckout e.g. `git cof refact` instead of `git co refactoring`
+  cot = !sh -c 'git fetch origin && git checkout -t origin/$1' -
   com = checkout master                   # checkout master
   cod = checkout development                  # checkout development
   cos = checkout staging                  # checkout staging
@@ -170,7 +171,7 @@
 
   #recent branches
   rb = for-each-ref --count=30 --sort=-committerdate refs/heads/ --format='%(refname:short)'
-  cb = !dialog --clear --backtitle "Backtitle here" --title "Title here" --menu "Choose one of the following options:" 15 40 4 $(git rb)
+  cb = !git checkout `git rb | fzf`
 [format]
   pretty = format:%C(blue)%ad%Creset %C(yellow)%h%C(green)%d%Creset %C(blue)%s %C(magenta) [%an]%Creset
 [mergetool]
