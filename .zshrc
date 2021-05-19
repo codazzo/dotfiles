@@ -82,13 +82,9 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-alias bt="buster-test"
-alias bs="buster-server"
 alias web='python -m SimpleHTTPServer'
 alias kn='killall node'
 alias lll="ls -las | awk '"'{print $10}'"'"
-alias co="./script/console"
-alias redie="redis-cli shutdown"
 alias psn="ps aux | grep node"
 alias grpo="npm ls | grep repo"
 alias psgrep="ps aux | grep"
