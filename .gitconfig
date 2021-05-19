@@ -22,7 +22,9 @@
   chunkyadd = add --patch           # stage commits chunk by chunk
 
   # branch
-  b = branch -v                     # branch (verbose)
+  b = branch -v                                 # branch (verbose)
+  bn = !sh -c 'git rev-parse --abbrev-ref HEAD' # gets the name of the branch
+  bm = branch -m                                # rename branch
 
   # commit
   c = commit -m                               # commit with message
@@ -31,10 +33,12 @@
   ci = commit                                 # commit
   cn = commit -n                              # commit with no hooks
   cnf = commit -n --fixup                     # create fixup commit with no hooks
+  cnfr = "!cnfr() { git cnf $1 && git ras $1^; }; cnfr"   # create fixup commit with no hooks, and immediately rebase with autosquash from the commit before the destination
   aci = !git add . && git commit              # add everything commit
   acn = !git add . && git commit -n           # add everything _and_ commit with no hooks
   acf = !git add . && git commit --fixup      # add everything and create fixup commit
   acnf = !git add . && git commit -n --fixup  # add everything and create fixup commit (don't run hooks)
+  acnfr = "!acnfr() { git acnf $1 && git ras $1^; }; acnfr" # add everything, create fixup commit with no hooks, and immediately rebase with autosquash from the commit before the destination
   amend = commit --amend                      # amend your last commit
   namend = commit --amend -n                  # amend your last commit with no hooks 
   anamend = commit -a --amend -n              # like namend, but stage all changes before commmit
@@ -46,10 +50,14 @@
   co = checkout                           # checkout
   cof = !sh -c 'git-fuzzy-checkout $1' -  # fuzzy vheckout e.g. `git cof refact` instead of `git co refactoring`
   cot = !sh -c 'git fetch origin && git checkout -t origin/$1' -
-  com = checkout master                   # checkout master
-  cod = checkout development                  # checkout development
-  cos = checkout staging                  # checkout staging
+  cob = !sh -c 'git checkout origin/`git bn`'
+  coba = !sh -c 'git checkout base'
   nb = checkout -b                        # create and switch to a new branch (mnemonic: "git new branch branchname...")
+  com = checkout master                   # checkout master
+  coma = checkout main                    # checkout main
+  cod = checkout development              # checkout development
+  cos = checkout staging                  # checkout staging
+  coh = checkout HEAD^                    # checkout the commit before the last
 
   # cherry-pick
   cp = cherry-pick -x               # grab a change from a branch
@@ -63,10 +71,12 @@
   fu = fetch upstream
   fo = fetch origin
   fomom = !git fetch origin && git merge origin/master
+  fomoma = !git fetch origin && git merge origin/main
   fomos = !git fetch origin && git merge origin/staging
   fomod = !git fetch origin && git merge origin/development
-  forhob = !git fetch origin && git reset --hard origin/`git rev-parse --abbrev-ref HEAD`
+  forhob = !git fetch origin && git reset --hard origin/`git bn`
   forhom = !git fetch origin && git reset --hard origin/master
+  forhoma = !git fetch origin && git reset --hard origin/main
   forhos = !git fetch origin && git reset --hard origin/staging
   forhod = !git fetch origin && git reset --hard origin/development
 
@@ -82,16 +92,19 @@
 
   # merge
   mom = merge origin/master
+  moma = merge origin/main
   mos = merge origin/staging
 
   # pull
   pl = pull
   prod = pull --rebase origin development
   prom = pull --rebase origin master
+  proma = pull --rebase origin main
   pros = pull --rebase origin staging
-  prob = !sh -c 'git pull --rebase origin `git rev-parse --abbrev-ref HEAD`'
+  prob = !sh -c 'git pull --rebase origin `git bn`'
   prios = !sh -c 'git pull --rebase origin staging && git rebase -i origin/staging'
   priom = !sh -c 'git pull --rebase origin master && git rebase -i origin/master'
+  prioma = !sh -c 'git pull --rebase origin master && git rebase -i origin/main'
   prud = pull --rebase upstream development
   prum = pull --rebase upstream master
   prus = pull --rebase upstream staging
@@ -99,35 +112,43 @@
 
   # push
   ps = push
-  fp = !sh -c 'git push --force origin `git rev-parse --abbrev-ref HEAD`' -
-  fpn = !sh -c 'git push --force --no-verify origin `git rev-parse --abbrev-ref HEAD`' -
-  fpu = !sh -c 'git push --force upstream `git rev-parse --abbrev-ref HEAD`' -
-  fpc = !sh -c 'git push --force codazzo `git rev-parse --abbrev-ref HEAD`' -
-  fpp = !sh -c 'git push --force play `git rev-parse --abbrev-ref HEAD`' -
-  fpcn = !sh -c 'git push --force --no-verify codazzo `git rev-parse --abbrev-ref HEAD`' -
-  fpa = !sh -c 'git push --force adettole `git rev-parse --abbrev-ref HEAD`' -
+  fp = !sh -c 'git push --force origin `git bn`' -
+  fpn = !sh -c 'git push --force --no-verify origin `git bn`' -
+  fpu = !sh -c 'git push --force upstream `git bn`' -
+  fpc = !sh -c 'git push --force codazzo `git bn`' -
+  fpp = !sh -c 'git push --force play `git bn`' -
+  fpcn = !sh -c 'git push --force --no-verify codazzo `git bn`' -
+  fpa = !sh -c 'git push --force adettole `git bn`' -
 
   # rebase
   ra = rebase --abort
   ras   = !sh -c 'HUSKY_SKIP_HOOKS=1 git rebase --autosquash --interactive $0'
   rasom = !sh -c 'HUSKY_SKIP_HOOKS=1 git rebase --autosquash --interactive origin/master'
+  rasoma = !sh -c 'HUSKY_SKIP_HOOKS=1 git rebase --autosquash --interactive origin/main'
   rasos = !sh -c 'HUSKY_SKIP_HOOKS=1 git rebase --autosquash --interactive origin/staging'
   rasod = !sh -c 'HUSKY_SKIP_HOOKS=1 git rebase --autosquash --interactive origin/development'
-  rasob = !sh -c 'git rebase --autosquash --interactive origin/`git rev-parse --abbrev-ref HEAD`'
+  rasob = !sh -c 'git rebase --autosquash --interactive origin/`git bn`'
+  rasoba = !sh -c 'git rebase --autosquash --interactive base'
   rc = rebase --continue
   arc = !git add . && git rebase --continue
   rs = rebase --skip
   ri   = !sh -c 'HUSKY_SKIP_HOOKS=1 git rebase -i HEAD~$1' -
   riod = !sh -c 'HUSKY_SKIP_HOOKS=1 git rebase -i origin/development'
   rios = !sh -c 'HUSKY_SKIP_HOOKS=1 git rebase -i origin/staging'
-  riob = !sh -c 'HUSKY_SKIP_HOOKS=1 git rebase -i origin/`git rev-parse --abbrev-ref HEAD`'
+  riob = !sh -c 'HUSKY_SKIP_HOOKS=1 git rebase -i origin/`git bn`'
+  rioba = !sh -c 'HUSKY_SKIP_HOOKS=1 git rebase -i base'
   riom = !sh -c 'HUSKY_SKIP_HOOKS=1 git rebase -i origin/master'
+  rioma = !sh -c 'HUSKY_SKIP_HOOKS=1 git rebase -i origin/main'
+  robid = !sh -c 'HUSKY_SKIP_HOOKS=1 git rebase origin/`git bn` --ignore-date'
+  robaid = !sh -c 'HUSKY_SKIP_HOOKS=1 git rebase base --ignore-date'
   romid = rebase origin/master --ignore-date
   rosid = rebase origin/staging --ignore-date
   rodid = rebase origin/development --ignore-date
 
 # remote
   r = remote -v                     # show remotes (verbose)
+  rpo = remote prune origin
+  rpod = remote prune origin --dry-run
 
   # reset
   unstage = reset HEAD              # remove files from index (tracking)
@@ -140,17 +161,19 @@
   rod = reset origin/development
   ros = reset origin/staging
   rom = reset origin/master
+  rob = !git fetch origin && git reset origin/`git bn`
+  roma = reset origin/main
   rhom = reset --hard origin/master
   rhos = reset --hard origin/staging
 
-  su = !sh -c 'git branch --set-upstream-to=origin/`git rev-parse --abbrev-ref HEAD`'
+  su = !sh -c 'git branch --set-upstream-to=origin/`git bn`'
 
   # stash
-  ss = stash                        # stash changes
-  sl = stash list                   # list stashes
-  sp = stash pop                    # pop stash
-  sa = stash apply                  # apply stash (restore changes)
-  sd = stash drop                   # drop stashes (destory changes)
+  ss = stash save --include-untracked    # stash changes - including untracked files
+  sl = stash list                        # list stashes
+  sp = stash pop                         # pop stash
+  sa = stash apply                       # apply stash (restore changes)
+  sd = stash drop                        # drop stashes (destory changes)
 
   # status
   s = status                        # status
@@ -163,6 +186,7 @@
 
   #wip
   wip = !git add . && git commit -n -m "WIP"
+  sfsg = !git add . && git commit -n -m "SFSG"
 
   # svn helpers
   svnr = svn rebase
@@ -170,8 +194,9 @@
   svnl = svn log --oneline --show-commit
 
   #recent branches
-  rb = for-each-ref --count=30 --sort=-committerdate refs/heads/ --format='%(refname:short)'
-  cb = !git checkout `git rb | fzf`
+  rbr = for-each-ref --count=30 --sort=-committerdate refs/heads/ --format='%(refname:short)'
+  rb = !sh -c 'git rbr | tac'
+  cb = !git checkout `git rbr | fzf`
 [format]
   pretty = format:%C(blue)%ad%Creset %C(yellow)%h%C(green)%d%Creset %C(blue)%s %C(magenta) [%an]%Creset
 [mergetool]
