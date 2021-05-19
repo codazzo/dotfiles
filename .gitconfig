@@ -226,4 +226,8 @@
 [commit]
   template = ~/.stCommitMsg
 [include]
-    path = ~/.gitconfig.include
+    path = ~/.gitconfig.include[fetch]
+[fetch]
+	prune = true
+[pull]
+	rebase = false
