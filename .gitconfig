@@ -103,6 +103,7 @@
   pros = pull --rebase origin staging
   prob = !sh -c 'git pull --rebase origin `git bn`'
   prios = !sh -c 'git pull --rebase origin staging && git rebase -i origin/staging'
+  prasom = !sh -c 'HUSKY_SKIP_HOOKS=1 git fetch origin && git rebase --autosquash --interactive origin/master'
   priom = !sh -c 'git pull --rebase origin master && git rebase -i origin/master'
   prioma = !sh -c 'git pull --rebase origin master && git rebase -i origin/main'
   prud = pull --rebase upstream development
@@ -146,7 +147,6 @@
   rodid = rebase origin/development --ignore-date
 
 # remote
-  r = remote -v                     # show remotes (verbose)
   rpo = remote prune origin
   rpod = remote prune origin --dry-run
 
