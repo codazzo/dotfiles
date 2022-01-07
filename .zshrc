@@ -114,4 +114,14 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && . "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
 [ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && . "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
 
-source .env-custom.sh
+
+export KUBE_EDITOR="/Applications/Sublime\ Text.app/Contents/SharedSupport/bin/subl -w"
+
+source ~/.env-custom.sh
+
+# Global env vars!
+loadGlobalEnvVars() {
+  export $(cat ~/.env_vars | egrep -v "(^#.*|^$)" | xargs)
+}
+source ~/.env_vars
+add-zsh-hook preexec loadGlobalEnvVars
