@@ -157,6 +157,7 @@
   uc       = reset HEAD^
   filelog = log -u                  # show changes to a file
   mt = mergetool                    # fire up the merge tool
+  r = !sh -c 'git reset HEAD~$1' -
   rh = reset --hard
   rod = reset origin/development
   ros = reset origin/staging
