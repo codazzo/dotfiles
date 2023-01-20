@@ -25,6 +25,7 @@
   b = branch -v                                 # branch (verbose)
   bn = !sh -c 'git rev-parse --abbrev-ref HEAD' # gets the name of the branch
   bm = branch -m                                # rename branch
+  lb = rev-parse --abbrev-ref @{-1}             # last branch
 
   # commit
   c = commit -m                               # commit with message
@@ -46,6 +47,11 @@
   namen = commit --amend --no-edit -n         # like amen, but skip commit hooks
   anamen = commit -a --amend --no-edit -n     # like namen, but stage all changes before commmit
 
+  # absorb - you'll need https://github.com/tummychow/git-absorb
+  ab = absorb
+  aa = "!aa() { git a && git ab $@; }; aa"
+  aar = "!aar() { git a && git ab --and-rebase; }; aar"
+
   # checkout
   co = checkout                           # checkout
   cof = !sh -c 'git-fuzzy-checkout $1' -  # fuzzy vheckout e.g. `git cof refact` instead of `git co refactoring`
@@ -65,7 +71,7 @@
   # diff
   d = diff                          # diff unstaged changes
   dc = diff --cached                # diff staged changes
-  last = diff HEAD^                 # diff last committed change
+  dh = diff HEAD^                   # diff last committed change
 
   # fetch
   fu = fetch upstream
@@ -82,6 +88,7 @@
 
   # log
   l = log --graph --date=short
+  last = log --pretty=medium -1 --stat
   changes = log --pretty=format:\"%h %cr %cn %Cgreen%s%Creset\" --name-status
   short = log --pretty=format:\"%h %cr %cn %Cgreen%s%Creset\"
   changelog = log --pretty=format:\" * %s\"
@@ -89,11 +96,14 @@
 
   #ls
   ls = diff-tree --no-commit-id --name-only -r
+  lsu = ls-files --others --exclude-standard # list untracked files
+
 
   # merge
   mom = merge origin/master
   moma = merge origin/main
   mos = merge origin/staging
+  mlb = !sh -c 'git merge $(git lb)' # merge last branch
 
   # pull
   pl = pull
@@ -157,6 +167,7 @@
   uc       = reset HEAD^
   filelog = log -u                  # show changes to a file
   mt = mergetool                    # fire up the merge tool
+  dt = difftool
   r = !sh -c 'git reset HEAD~$1' -
   rh = reset --hard
   rod = reset origin/development
@@ -196,21 +207,23 @@
 
   #recent branches
   rbr = for-each-ref --count=30 --sort=-committerdate refs/heads/ --format='%(refname:short)'
-  rb = !sh -c 'git rbr | tac'
+  rb = !sh -c 'git rbr | tac' # need brew install coreutils
   cb = !git checkout `git rbr | fzf`
 [format]
-  pretty = format:%C(blue)%ad%Creset %C(yellow)%h%C(green)%d%Creset %C(blue)%s %C(magenta) [%an]%Creset
+  pretty = format:%C(red)%ad%Creset %C(yellow)%h%C(green)%d%Creset %C(white)%s %C(magenta) [%an]%Creset
 [mergetool]
+  keepbackup = false
   prompt = false
-  keepBackup = true
 [mergetool "mvimdiff"]
   cmd="mvim -c 'Gdiff' $MERGED"     # use fugitive.vim for 3-way merge
   keepbackup=false
 [merge]
   summary = true
   verbosity = 1
-  tool = mvimdiff
+  # tool = bc
+  # tool = araxis
   conflictstyle = diff3
+  tool = Kaleidoscope
 [apply]
   whitespace = nowarn
 [branch]
@@ -220,15 +233,15 @@
   # the usual default is to push all branches
   default = current
 [core]
-  autocrlf = false
-  editor = subl -n -w
-  excludesfile = ~/.gitignore_global
+  editor = code -n -w
+  excludesfile = /Users/codazzo/.gitignore_global
 [advice]
   statusHints = false
 [diff]
   # Git diff will use (i)ndex, (w)ork tree, (c)ommit and (o)bject
   # instead of a/b/c/d as prefixes for patches
-  # mnemonicprefix = true
+  mnemonicprefix = true
+  tool = Kaleidoscope
 [rerere]
   # Remember my merges
   # http://gitfu.wordpress.com/2008/04/20/git-rerere-rereremember-what-you-did-last-time/
@@ -236,8 +249,8 @@
 [include]
   path = .gitconfig.user
 [user]
-  name = Antonio D'Ettole
   email = antonio@example.com
+  name = "Antonio D'Ettole"
 [difftool "sourcetree"]
   cmd = opendiff \"$LOCAL\" \"$REMOTE\"
   path = 
@@ -252,8 +265,17 @@
 [commit]
   template = ~/.stCommitMsg
 [include]
-    path = ~/.gitconfig.include[fetch]
+  path = ~/.gitconfig.include
 [fetch]
-	prune = true
+  prune = true
 [pull]
-	rebase = false
+  rebase = false
+[difftool "Kaleidoscope"]
+  cmd = ksdiff --partial-changeset --relative-path \"$MERGED\" -- \"$LOCAL\" \"$REMOTE\"
+[difftool]
+  prompt = false
+[mergetool "Kaleidoscope"]
+  cmd = ksdiff --merge --output \"$MERGED\" --base \"$BASE\" -- \"$LOCAL\" --snapshot \"$REMOTE\" --snapshot
+  trustExitCode = true
+[http]
+  cookiefile = /Users/codazzo/.gitcookies
